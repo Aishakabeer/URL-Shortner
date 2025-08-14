@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>URL Mappings</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Stored URL–Short Code Mappings</h2>
+        <table style="width:100%;margin-top:20px;">
+            <tr>
+                <th>Short Code</th>
+                <th>Long URL</th>
+            </tr>
+            {% for mapping in mappings %}
+            <tr>
+                <td>
+                    <a href="{{ url_for('redirect_short_url', short_code=mapping.short_code, _external=True) }}">
+                        {{ mapping.short_code }}
+                    </a>
+                </td>
+                <td>{{ mapping.long_url }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
+        <a href="{{ url_for('index') }}">Go Home</a>
+    </div>
+</body>
+</html>

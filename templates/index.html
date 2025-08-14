@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>URL Shortener</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+    function toggleTheme() {
+        const body = document.body;
+        body.classList.toggle('dark-theme');
+        const btn = document.getElementById('theme-btn');
+        if (body.classList.contains('dark-theme')) {
+            btn.innerHTML = ' Light';
+        } else {
+            btn.innerHTML = ' Dark';
+        }
+        localStorage.setItem('theme', body.classList.contains('dark-theme') ? 'dark' : 'light');
+    }
+    window.onload = function() {
+        const btn = document.getElementById('theme-btn');
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-theme');
+            btn.innerHTML = ' Light';
+        } else {
+            btn.innerHTML = ' Dark';
+        }
+    }
+    </script>
+</head>
+<body>
+    <div class="theme-toggle">
+        <button id="theme-btn" onclick="toggleTheme()" title="Toggle Light/Dark Theme">🌙 Dark</button>
+    </div>
+    <div class="container">
+        <h1>URL Shortener</h1>
+        <div class="description">
+            <p>
+                <strong>A URL shortener</strong> is an online tool or service that takes a long web address (URL) and converts it into a shorter, more compact version. This shortened URL still directs to the original webpage.
+            </p>
+            <p>
+                <strong>Here's how URL shorteners work:</strong><br>
+                When you input a long URL into a URL shortener, the service generates a unique, shorter URL that acts as a redirect.<br>
+                This shortened URL often uses a different, shorter domain name than the original.<br>
+                When someone clicks on the shortened URL, the URL shortener's server redirects them to the original, longer URL.
+            </p>
+        </div>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="flash">
+              {% for message in messages %}
+                <p>{{ message }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.url.label }} {{ form.url(size=60) }}
+            {{ form.submit() }}
+        </form>
+        <br>
+    </div>
+</body>
+</html>

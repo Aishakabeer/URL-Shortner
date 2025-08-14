@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>404 Not Found</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+    function toggleTheme() {
+        const body = document.body;
+        body.classList.toggle('dark-theme');
+        const btn = document.getElementById('theme-btn');
+        if (body.classList.contains('dark-theme')) {
+            btn.innerHTML = '☀️ Light';
+        } else {
+            btn.innerHTML = '🌙 Dark';
+        }
+        localStorage.setItem('theme', body.classList.contains('dark-theme') ? 'dark' : 'light');
+    }
+    window.onload = function() {
+        const btn = document.getElementById('theme-btn');
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-theme');
+            btn.innerHTML = '☀️ Light';
+        } else {
+            btn.innerHTML = '🌙 Dark';
+        }
+    }
+    </script>
+</head>
+<body>
+    <div class="theme-toggle">
+        <button id="theme-btn" onclick="toggleTheme()" title="Toggle Light/Dark Theme">🌙 Dark</button>
+    </div>
+    <div class="container">
+        <h2>404 - Short URL Not Found</h2>
+        <a href="{{ url_for('index') }}">Go Home</a>
+    </div>
+</body>
+</html>

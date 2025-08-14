@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shortened URL</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+    function copyToClipboard() {
+        const url = document.getElementById('short-url').textContent;
+        navigator.clipboard.writeText(url).then(function() {
+            document.getElementById('copy-btn').textContent = '✅';
+            setTimeout(function() {
+                document.getElementById('copy-btn').textContent = '📋';
+            }, 1200);
+        });
+    }
+    function toggleTheme() {
+        const body = document.body;
+        body.classList.toggle('dark-theme');
+        const btn = document.getElementById('theme-btn');
+        if (body.classList.contains('dark-theme')) {
+            btn.textContent = 'Light';
+        } else {
+            btn.textContent = 'Dark';
+        }
+        localStorage.setItem('theme', body.classList.contains('dark-theme') ? 'dark' : 'light');
+    }
+    window.onload = function() {
+        const btn = document.getElementById('theme-btn');
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-theme');
+            btn.textContent = 'Light';
+        } else {
+            btn.textContent = 'Dark';
+        }
+    }
+    </script>
+</head>
+<body>
+    <div class="theme-toggle">
+        <button id="theme-btn" onclick="toggleTheme()" title="Toggle Light/Dark Theme">Dark Theme</button>
+    </div>
+    <div class="container">
+        <h2>Your Shortened URL:</h2>
+        <span id="short-url">{{ short_url }}</span>
+        <button id="copy-btn" onclick="copyToClipboard()" title="Copy URL" style="margin-left:8px;">📋</button>
+        <br>
+        <a href="{{ short_url }}" target="_blank">Go to your shortened URL</a>
+        <br>
+        <a href="{{ url_for('index') }}">Shorten another</a>
+    </div>
+</body>
+</html>
